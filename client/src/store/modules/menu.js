@@ -1,19 +1,19 @@
 import axios from 'axios'
 
 const state = {
-  menu_list: []
+  menu_list: null
 }
 
 const actions = {
   loadMenuList: async ({ commit }) => {
-    let menu = await axios.get('http://amma-test.bigdropinc.net/wp-json/wp-api-menus/v2/menus/18')
-    commit('setMenuList', { menu })
+    let menu_list = await axios.get('http://localhost:8081/menu')
+    commit('setMenuList', { menu: menu_list })
   }
 }
 
 const mutations = {
   setMenuList: (state, { menu }) => {
-    state.menu_list = menu.items
+    state.menu_list = menu.data
   }
 }
 

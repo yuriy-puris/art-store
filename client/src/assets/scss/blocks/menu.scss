@@ -1,0 +1,16 @@
+.main-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 30%;
+  background: $color-white;
+  padding: 20px 20px 0;
+  transform: translateX(-100%);
+  a {
+    color: $color-black;
+  }
+  li {
+    padding: 0 0 20px;
+  }
+}

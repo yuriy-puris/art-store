@@ -12,14 +12,7 @@ app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/menu', (req, res) => {
-  res.send([
-    {
-      title: 'HEllo',
-      description: 'world...'
-    }
-  ])
-})
+app.use(require('./routes/routes'))
 
 mongoose.connect(config.dbURL, config.dbOptions)
 
@@ -30,3 +23,6 @@ mongoose.connection
       () => console.log(`Server start on port ${config.port} ...`))
   })
   .on('error', error => console.warn(error))
+
+
+

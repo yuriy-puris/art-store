@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import menu from './modules/menu'
-import axios from 'axios'
 
 Vue.use(Vuex)
 

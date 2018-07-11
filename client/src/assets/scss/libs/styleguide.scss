@@ -1,6 +1,7 @@
 //variables
 $color-white: #fff;
 $color-grey: #f0f0f0;
+$color-black: #000000;
 
 body {
   @include font-regular;
@@ -163,4 +164,15 @@ a {
 img {
   max-width: 100%;
   vertical-align: top;
+}
+
+input {
+  width: 100%;
+  outline: none;
+  padding: 0 5px;
+}
+
+input[type="submit"],
+button {
+  cursor: pointer;
 }
