@@ -1,12 +1,14 @@
 .main-menu {
   position: absolute;
-  top: 0;
+  top: 35px;
   left: 0;
-  height: 100vh;
+  height: calc(100vh - 35px);
   width: 30%;
+  min-width: 220px;
   background: $color-white;
   padding: 20px 20px 0;
-  transform: translateX(-100%);
+  text-align: left;
+  z-index: 3;
   a {
     color: $color-black;
   }

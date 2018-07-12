@@ -5,12 +5,23 @@ const morgan = require('morgan')
 const config = require('./config/config')
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
 
 const app = express()
 
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
+
+app.use(session({
+  secret: 'work hard',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+  })
+}))
 
 app.use(require('./routes/routes'))
 

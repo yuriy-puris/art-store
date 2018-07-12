@@ -1,6 +1,8 @@
 <template>
   <div class="user-card">
-    <span class="user-icon">
+    <span 
+      class="user-icon"
+      @click="showUserForm = !showUserForm">
       <svg width="15px" height="18px" viewBox="0 0 12 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1111.000000, -8.000000)" fill="#FFFFFF">
@@ -13,34 +15,52 @@
         </g>
       </svg>
     </span>
-    <div class="user-form">
-      <form action="#">
-        <div class="row-input">
-          <input 
-            class="form-control"
-            type="text">
-        </div>
-        <div class="row-input">
-          <input 
-            class="form-control"
-            type="text">
-        </div>
-        <div class="row-input">
-          <input 
-            class="form-control"
-            type="text">
-        </div>
-      </form>
-      <input 
-        type="submit"
-        class="sign-up"
-        value="Sign Up">
-    </div>
+    <transition name="fade">
+      <div class="user-form" v-if="showUserForm">
+        <form action="#">
+          <div class="form-row">
+            <input 
+              class="form-control"
+              type="text"
+              placeholder="Your name"
+              v-model="loginName">
+          </div>
+          <div class="form-row">
+            <input 
+              class="form-control"
+              type="text"
+              placeholder="Your password"
+              v-model="loginPassword">
+          </div>
+        </form>
+        <router-link
+          class="sign-up"
+          :to="{ name: 'NewUser' }"
+        >
+          Sign Up
+        </router-link>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
-  
+  name: 'UserCard',
+  data() {
+    return {
+      showUserForm: false,
+      loginName: '',
+      loginPassword: ''
+    }
+  }
 }
 </script>
+<style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+</style>

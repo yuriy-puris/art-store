@@ -9,6 +9,17 @@ body {
   line-height: 1.5;
   background: $color-grey;
 }
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+}
+main {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+}
 .container {
   width: 100%;
   min-width: 320px;
