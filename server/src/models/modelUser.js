@@ -23,7 +23,7 @@ const User = new Schema({
 })
 
 User.statics.authenticate = function(userName, userEmail, userPassword) {
-  UserModel.findOne({email: email})
+  UserModel.findOne({ email: email })
     .exec((err, user) => {
       if (err) {
         return callback(err)
@@ -42,16 +42,16 @@ User.statics.authenticate = function(userName, userEmail, userPassword) {
     })
 }
 
-User.pre('save', (next) => {
-  let user = this
-  bcrypt.hash(user.userPassword, 10, (err, hash) => {
-    if (err) {
-      return next(err)
-    }
-    user.userPassword = hash
-    next()
-  })
-})
+// User.pre('save', (next) => {
+//   let user = this
+//   bcrypt.hash(user.userPassword, 10, (err, hash) => {
+//     if (err) {
+//       return next(err)
+//     }
+//     user.userPassword = hash
+//     next()
+//   })
+// })
 
 
 

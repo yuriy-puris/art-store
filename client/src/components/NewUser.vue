@@ -48,11 +48,11 @@ export default {
         this.newEmail !== ''  &&
         this.newPassword !== '' ) {
           const params = {
-            name: this.newName,
-            email: this.newEmail,
-            password: this.newPassword
+            userName: this.newName,
+            userEmail: this.newEmail,
+            userPassword: this.newPassword
           }
-          await StoreService.registration(params)
+          await StoreService.signUp(params)
           this.newName = ''
           this.newEmail = ''
           this.newPassword = ''

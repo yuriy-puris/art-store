@@ -68,6 +68,10 @@ $color-black: #000000;
   width: 300px;
   padding: 20px;
   background: $color-white;
+  .sign-up {
+    background: lighten($color-black, 50%);
+    margin: 20px 0 0;
+  }
 }
 .user-icon {
   vertical-align: top;

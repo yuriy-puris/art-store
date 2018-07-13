@@ -20,7 +20,7 @@ app.use(session({
   saveUninitialized: false,
   store: new MongoStore({
     mongooseConnection: mongoose.connection
-  })
+  }),
 }))
 
 app.use(require('./routes/routes'))

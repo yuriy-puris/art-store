@@ -33,6 +33,11 @@
               v-model="loginPassword">
           </div>
         </form>
+        <input 
+          type="submit"
+          value="Log In"
+          @click="login()"
+        >
         <router-link
           class="sign-up"
           :to="{ name: 'NewUser' }"
@@ -45,6 +50,8 @@
 </template>
 
 <script>
+import StoreService from '@/services/StoreService'
+
 export default {
   name: 'UserCard',
   data() {
@@ -52,6 +59,18 @@ export default {
       showUserForm: false,
       loginName: '',
       loginPassword: ''
+    }
+  },
+  methods: {
+    async login() {
+      if (this.loginName !== ''  &&
+          this.loginPassword !== '') {
+            const params = {
+              loginName: this.loginName,
+              loginPassword: this.loginPassword
+            }
+            await StoreService.login(params)
+          }
     }
   }
 }
