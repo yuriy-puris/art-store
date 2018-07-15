@@ -4,10 +4,6 @@ const UserModel = require('../models/modelUser')
 const mongoClient = require("mongodb").MongoClient;
 const bcrypt = require('bcrypt')
 
-router.get('*', function(req, res) {
-  res.send(req.session);
-});
-
 router.get('/menu', (req, res) => {
   mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
     client.db("art_products").collection("main_menu").find({}).toArray(function(err, datadb) {
@@ -54,7 +50,7 @@ router.post('/login', (req, res) => {
       if (passwordCheck) {
         req.session.userId = user._id
         req.session.save()
-        // console.log(req.session)
+        console.log(req)
         return res.redirect('/profile')
       } else {
         console.log('invalid password')
@@ -65,7 +61,7 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/profile', (req, res, next) => {
-  console.log(req.session)
+  console.log(req.session.userId)
 })
 
 module.exports = router
