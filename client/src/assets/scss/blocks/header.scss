@@ -71,6 +71,7 @@ $color-black: #000000;
   .sign-up {
     background: lighten($color-black, 50%);
     margin: 20px 0 0;
+    cursor: pointer;
   }
 }
 .user-icon {

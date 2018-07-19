@@ -5,23 +5,46 @@ const morgan = require('morgan')
 const config = require('./config/config')
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
+const cookieParser = require('cookie-parser')
+const UserModel = require('./models/modelUser')
+const bcrypt = require('bcrypt')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
+const mongoClient = require("mongodb").MongoClient
 
 const app = express()
 
-app.use(morgan('combined'))
-app.use(bodyParser.json())
-app.use(cors())
-
 app.use(session({
+  name: 'art-store',
   secret: 'work hard',
-  resave: true,
-  saveUninitialized: false,
+  rolling: true,
+    resave: true,
+    saveUninitialized: true,
   store: new MongoStore({
     mongooseConnection: mongoose.connection
   }),
+  cookie: { 
+    secure: true, 
+    httpOnly: false,
+    maxAge: 30 * 60 * 1000,
+  },
 }))
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.use(morgan('combined'))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(cors({
+  origin:['http://localhost:8080'],
+  methods:['GET','POST'],
+  credentials: true
+}));
+
+app.use(cookieParser())
 
 app.use(require('./routes/routes'))
 
@@ -34,6 +57,3 @@ mongoose.connection
       () => console.log(`Server start on port ${config.port} ...`))
   })
   .on('error', error => console.warn(error))
-
-
-

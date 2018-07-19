@@ -4,10 +4,6 @@ const UserModel = require('../models/modelUser')
 const mongoClient = require("mongodb").MongoClient;
 const bcrypt = require('bcrypt')
 
-router.get('*', function(req, res) {
-  res.send(req.session);
-});
-
 router.get('/menu', (req, res) => {
   mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
     client.db("art_products").collection("main_menu").find({}).toArray(function(err, datadb) {
@@ -16,6 +12,31 @@ router.get('/menu', (req, res) => {
         client.close()
       })
     })
+  })
+})
+
+router.get('/', (req, res) => {
+  console.log(req.session)
+})
+
+router.post('/login', (req, res) => {
+  let { loginName, loginPassword } = req.body
+  
+  UserModel.findOne({ userName: loginName }, 'userName userEmail userPassword', (err, user) => {
+    if (err) {
+      console.log('invalid login')
+      return res.send(401).send('invalid login')
+    } else {
+      let passwordCheck = bcrypt.compare(loginPassword, user.userPassword)
+      if (passwordCheck) {
+        req.session.userId = user._id
+        console.log('User: ' + req.session.userId)
+        return res.send(req.session.userId)
+      } else {
+        console.log('invalid password')
+        return res.send(400).send('invalid password')
+      }
+    }
   })
 })
 
@@ -42,30 +63,26 @@ router.post('/signup', (req, res) => {
   })
 })
 
-router.post('/login', (req, res) => {
-  let { loginName, loginPassword } = req.body
+// router.post('/login', (req, res) => {
+//   let { loginName, loginPassword } = req.body
   
-  UserModel.findOne({ userName: loginName }, 'userName userEmail userPassword', (err, user) => {
-    if (err) {
-      console.log('invalid login')
-      return res.send(401).send('invalid login')
-    } else {
-      let passwordCheck = bcrypt.compare(loginPassword, user.userPassword)
-      if (passwordCheck) {
-        req.session.userId = user._id
-        req.session.save()
-        // console.log(req.session)
-        return res.redirect('/profile')
-      } else {
-        console.log('invalid password')
-        return res.send(400).send('invalid password')
-      }
-    }
-  })
-})
+//   UserModel.findOne({ userName: loginName }, 'userName userEmail userPassword', (err, user) => {
+//     if (err) {
+//       console.log('invalid login')
+//       return res.send(401).send('invalid login')
+//     } else {
+//       let passwordCheck = bcrypt.compare(loginPassword, user.userPassword)
+//       if (passwordCheck) {
+//         req.session.userId = user._id
+//         console.log('User: ' + req.session.userId)
+//         res.redirect('/')
+//       } else {
+//         console.log('invalid password')
+//         return res.send(400).send('invalid password')
+//       }
+//     }
+//   })
+// })
 
-router.get('/profile', (req, res, next) => {
-  console.log(req.session)
-})
 
 module.exports = router
