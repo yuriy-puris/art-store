@@ -18,13 +18,13 @@ app.use(session({
   name: 'art-store',
   secret: 'work hard',
   rolling: true,
-    resave: true,
-    saveUninitialized: true,
+  resave: true,
+  saveUninitialized: true,
   store: new MongoStore({
     mongooseConnection: mongoose.connection
   }),
   cookie: { 
-    secure: true, 
+    secure: false, 
     httpOnly: false,
     maxAge: 30 * 60 * 1000,
   },

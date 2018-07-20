@@ -16,3 +16,10 @@
     padding: 0 0 20px;
   }
 }
+.link-nav {
+  @include font-bold();
+  font-size: 17px;
+  text-decoration: underline;
+  display: inline-block;
+  margin: 0 0 20px;
+}

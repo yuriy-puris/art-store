@@ -1,5 +1,10 @@
 <template>
   <nav class="main-menu">
+    <router-link 
+      class="link-nav"
+      to="/categories">
+      All categories
+    </router-link>
     <ul>
       <li v-for="(item, index) in getMenuList">
         <router-link
@@ -20,9 +25,9 @@ import { mapState } from 'vuex'
 export default {
   name: 'MainMenu',
   computed: mapState({
-      getMenuList(state) {
-        return state.menu.menu_list 
-      }
+    getMenuList(state) {
+      return state.menu.menu_list 
+    }
   }),
   created() {
     this.getMenu()
