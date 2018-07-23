@@ -1,7 +1,9 @@
 //variables
 $color-white: #fff;
 $color-grey: #f0f0f0;
+$color-grey-dark: #808080;
 $color-black: #000000;
+
 
 body {
   @include font-regular;
@@ -16,18 +18,21 @@ body {
   min-height: 100vh;
 }
 main {
-  display: flex;
   flex-grow: 1;
   align-items: center;
+  padding-top: 30px;
+  @include media(">=desktop") {
+    padding-top: 90px;
+    padding-bottom: 50px;
+  }
 }
 .container {
   width: 100%;
   min-width: 320px;
   margin: auto;
-  padding: 0 10px;
+  padding: 0 15px;
   @include media(">=desktop") {
-    padding: 0;
-    width: 1170px;
+    max-width: 1170px;
   }
 }
 .min-container {
@@ -47,7 +52,6 @@ main {
     }
   }
 }
-h1, .h1,
 h2, .h2,
 h3, .h3,
 h4, .h4,
@@ -185,7 +189,7 @@ input {
 
 input[type="submit"],
 button {
-  height: 30px;
+  height: 31px;
   background: $color-black;
   border-color: transparent;
   color: $color-white;

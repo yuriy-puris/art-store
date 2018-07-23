@@ -38,12 +38,12 @@
           value="Log In"
           @click="login()"
         >
-        <router-link
+        <span
           class="sign-up"
-          :to="{ name: 'NewUser' }"
+          @click="goSignUp()"
         >
           Sign Up
-        </router-link>
+        </span>
       </div>
     </transition>
   </div>
@@ -69,8 +69,13 @@ export default {
               loginName: this.loginName,
               loginPassword: this.loginPassword
             }
-            await StoreService.login(params)
+            let auth = await StoreService.login(params).then(() => { StoreService.startPage() })
+            
           }
+    },
+    goSignUp() {
+      this.showUserForm = false
+      this.$router.push({path: '/registration'})
     }
   }
 }

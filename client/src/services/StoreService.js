@@ -9,5 +9,8 @@ export default {
   },
   login(params) {
     return api().post('login', params)
+  },
+  startPage() {
+    return api().get('/')
   }
 }

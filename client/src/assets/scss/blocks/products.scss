@@ -1,0 +1,36 @@
+.product-holder {
+  text-align: center;
+  .item {
+    display: inline-block;
+    width: 300px;
+    text-align: center;
+    margin: 0 15px 50px;
+  }
+  .img {
+    // background-size: cover;
+    // background-position: center;
+    height: 300px;
+    margin: 0 0 10px;
+  }
+  .title {
+    font-size: 18px;
+    margin: 0 0 10px;
+  }
+  .price {
+    font-size: 18px;
+    color: $color-grey-dark;
+    margin: 0 0 10px;
+  }
+}
+.price-holder {
+  overflow: hidden;
+  margin: 15px 0 0;
+  .price {
+    float: left;
+  }
+  .buy {
+    float: right;
+    min-width: 100px;
+    padding: 0;
+  }
+}
