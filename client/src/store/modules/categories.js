@@ -1,19 +1,19 @@
-import axios from 'axios'
+import api from '@/services/api'
 
 const state = {
   categories_list: null
 }
 
 const actions = {
-  loadHomeProducts: async ({ commit }) => {
-    let categories_list = await axios.get('latest_products')
-    commit('setProductsList', { categories: categories_list })
+  loadMainCategory: async ({ commit }) => {
+    let categories_list = await api().get('categories')
+    commit('setMainCategory', { categories: categories_list })
   }
 }
 
 const mutations = {
-  setProductsList: (state, { categories }) => {
-    state.categories_list = categories.data.acf.artwork_gallery
+  setMainCategory: (state, { categories }) => {
+    state.categories_list = categories.data.products
   }
 }
 

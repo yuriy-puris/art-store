@@ -1,4 +1,4 @@
-import axios from 'axios'
+import api from '@/services/api'
 
 const state = {
   products_list: null
@@ -6,7 +6,7 @@ const state = {
 
 const actions = {
   loadHomeProducts: async ({ commit }) => {
-    let products_list = await axios.get('http://localhost:8081/latest_products')
+    let products_list = await api().get('latest_products')
     commit('setProductsList', { products: products_list })
   }
 }

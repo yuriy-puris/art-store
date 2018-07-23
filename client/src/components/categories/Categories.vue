@@ -4,11 +4,11 @@
   </div>
 </template>
 <script>
-import SidebarCategories from '@/components/categories/Categories'
+import SidebarCategories from '@/components/categories/SidebarCategories'
   export default {
     name: 'Categories',
     components: {
       SidebarCategories
-    }
+    },
   }
 </script>
