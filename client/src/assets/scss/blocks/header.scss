@@ -9,6 +9,7 @@ $color-black: #000000;
   padding: 0 15px;
   height: 35px;
   flex-grow: 0;
+  position: relative;
   .user-card {
     height: 100%;
   }
@@ -55,11 +56,28 @@ $color-black: #000000;
     }
   }
 }
+.logo {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  a {
+    color: $color-white;
+  }
+}
 //user card
 .user-card {
   display: inline-block;
   position: relative;
   margin: 0 10px;
+  vertical-align: top;
+}
+.user-name {
+  text-transform: capitalize;
+  display: inline-block;
+  margin: 8px 0 0 5px;
+  color: #d8d8d8;
 }
 .user-form {
   position: absolute;

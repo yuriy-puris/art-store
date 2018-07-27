@@ -4,14 +4,7 @@ const UserModel = require('../models/modelUser')
 const mongoClient = require("mongodb").MongoClient;
 const bcrypt = require('bcrypt')
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 //header menu
-=======
->>>>>>> b9aca6d16e0e169021d79ecbad4da6f7843ee8a7
-=======
-//header menu
->>>>>>> d870b5182cd64453e246feb83a32f7a72ac075f5
 router.get('/menu', (req, res) => {
   mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
     client.db('art_products').collection("main_menu").find({}).toArray(function(err, datadb) {
@@ -45,7 +38,10 @@ router.get('/categories', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  console.log(req.session)
+  if (req.session.userId) {
+    console.log(session.jwt)
+    res.send(req.session.userId)
+  }
 })
 
 router.post('/login', (req, res) => {
@@ -58,19 +54,11 @@ router.post('/login', (req, res) => {
       let passwordCheck = bcrypt.compare(loginPassword, user.userPassword)
       if (passwordCheck) {
         req.session.userId = user._id
-<<<<<<< HEAD
-<<<<<<< HEAD
-        console.log(req.session.userId)
-        return res.send(req.session.userId)
-=======
-        req.session.save()
-        console.log(req)
-        return res.redirect('/profile')
->>>>>>> b9aca6d16e0e169021d79ecbad4da6f7843ee8a7
-=======
-        console.log(req.session.userId)
-        return res.send(req.session.userId)
->>>>>>> d870b5182cd64453e246feb83a32f7a72ac075f5
+        let userData = {
+          userName: user.userName,
+          userEmail: user.userEmail
+        }
+        return res.send(userData)
       } else {
         console.log('invalid password')
         return res.send(400).send('invalid password')
@@ -79,10 +67,6 @@ router.post('/login', (req, res) => {
   })
 })
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d870b5182cd64453e246feb83a32f7a72ac075f5
 router.get('/users', (req, res) => {
   UserModel.find({}, (err, users) => {
     res.send(users)
@@ -102,15 +86,7 @@ router.post('/signup', (req, res) => {
       return next(err)
     }
     req.session.userId = user._id
-    // return res.redirect('/')
   })
-<<<<<<< HEAD
-=======
-router.get('/profile', (req, res, next) => {
-  console.log(req.session.userId)
->>>>>>> b9aca6d16e0e169021d79ecbad4da6f7843ee8a7
-=======
->>>>>>> d870b5182cd64453e246feb83a32f7a72ac075f5
 })
 
 

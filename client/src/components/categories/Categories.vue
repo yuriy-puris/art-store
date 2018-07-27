@@ -1,6 +1,8 @@
 <template>
   <div class="categories-holder">
-    <SidebarCategories/>
+    <div class="container">
+      <SidebarCategories/>
+    </div>
   </div>
 </template>
 <script>

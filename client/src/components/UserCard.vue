@@ -1,6 +1,6 @@
 <template>
   <div class="user-card">
-    <span 
+    <span
       class="user-icon"
       @click="showUserForm = !showUserForm">
       <svg width="15px" height="18px" viewBox="0 0 12 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -15,25 +15,32 @@
         </g>
       </svg>
     </span>
+    <router-link
+      v-if="userData.userName !== ''"
+      :to="{ name: 'User' }"
+      class="user-name"
+    >
+      {{userData.userName}}
+    </router-link>
     <transition name="fade">
       <div class="user-form" v-if="showUserForm">
         <form action="#">
           <div class="form-row">
-            <input 
+            <input
               class="form-control"
               type="text"
               placeholder="Your name"
               v-model="loginName">
           </div>
           <div class="form-row">
-            <input 
+            <input
               class="form-control"
               type="text"
               placeholder="Your password"
               v-model="loginPassword">
           </div>
         </form>
-        <input 
+        <input
           type="submit"
           value="Log In"
           @click="login()"
@@ -51,14 +58,21 @@
 
 <script>
 import StoreService from '@/services/StoreService'
+import { mapState } from 'vuex'
 
 export default {
   name: 'UserCard',
   data() {
     return {
+      userInfo: false,
       showUserForm: false,
       loginName: '',
       loginPassword: ''
+    }
+  },
+  computed: {
+    userData() {
+      return this.$store.state.userData.userData
     }
   },
   methods: {
@@ -69,8 +83,11 @@ export default {
               loginName: this.loginName,
               loginPassword: this.loginPassword
             }
-            let auth = await StoreService.login(params).then(() => { StoreService.startPage() })
-            
+            let auth = await StoreService.login(params)
+              .then(data => {
+                this.$store.commit('setUserData', { data });
+                this.showUserForm = !this.showUserForm
+              })
           }
     },
     goSignUp() {

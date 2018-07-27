@@ -1,10 +1,17 @@
 <template>
   <div class="header_">
-    <span 
+    <span
       :class="['menu-button', { 'active' : showMenu === true } ]"
       @click="showMenu = !showMenu"
     >
     </span>
+    <strong class="logo">
+      <router-link
+        :to="{ name: 'HomePage' }"
+      >
+        Art Store
+      </router-link>
+    </strong>
     <transition name="open-menu">
       <MainMenu
         v-show="showMenu"
@@ -12,7 +19,7 @@
       />
     </transition>
     <UserCard/>
-    <ProductCard/> 
+    <ProductCard/>
   </div>
 </template>
 
@@ -47,7 +54,7 @@ export default {
   transition: transform .5s;
 }
 
-.open-menu-enter, 
+.open-menu-enter,
 .open-menu-leave-to {
   transform: translateX(-100%);
 }
