@@ -12,5 +12,11 @@ export default {
   },
   startPage() {
     return api().get('/')
+  },
+  loadCardProduct(params) {
+    return api().post('card-product', params)
+  },
+  listCardProduct(params) {
+    return api().post('list-products', id_products)
   }
 }

@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const UserModel = require('../models/modelUser')
-const mongoClient = require("mongodb").MongoClient;
+const mongoClient = require("mongodb").MongoClient
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 //header menu
 router.get('/menu', (req, res) => {
@@ -39,7 +40,6 @@ router.get('/categories', (req, res) => {
 
 router.get('/', (req, res) => {
   if (req.session.userId) {
-    console.log(session.jwt)
     res.send(req.session.userId)
   }
 })
@@ -67,12 +67,6 @@ router.post('/login', (req, res) => {
   })
 })
 
-router.get('/users', (req, res) => {
-  UserModel.find({}, (err, users) => {
-    res.send(users)
-  })
-})
-
 router.post('/signup', (req, res) => {
   let { userName, userEmail, userPassword } = req.body
   let userDate = {
@@ -82,12 +76,45 @@ router.post('/signup', (req, res) => {
   }
   let newUser = new UserModel(userDate)
   newUser.save((err, user) => {
-    if(err) {
+    if (err) {
       return next(err)
     }
     req.session.userId = user._id
   })
 })
 
+
+router.get('/users', (req, res) => {
+  UserModel.find({}, (err, users) => {
+    res.send(users)
+  })
+})
+
+//load products
+router.post('/card-product', (req, res) => {
+  UserModel.updateOne({ _id: req.session.userId }, { $push: { userProducts: req.body.id_product } }, (err, result) => {
+    if (err) {
+      return next(err)
+    }
+    console.log(result)
+    res.redirect('/user-products')
+  })
+})
+
+//get card user products
+router.get('/user-products', (req, res) => {
+  UserModel.findById(req.session.userId, (err, result) => {
+    res.send(result.userProducts)
+  })
+})
+
+//get products by id
+router.post('/list-card-product', (req, res) => {
+  mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
+    client.db('art_products').collection('products').findOne({ products: { $type: 'array' }}, 'products', (err, result) => {
+      res.send(result)
+    })
+  })
+})
 
 module.exports = router

@@ -1,6 +1,8 @@
 <template>
   <div class="product-card">
-    <span class="icon-card">
+    <span
+      class="icon-card"
+      @click="showProductCard = !showProductCard">
       <svg width="18px" height="18px" viewBox="0 0 16 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1207.000000, -7.000000)" fill="#FFFFFF">
@@ -13,18 +15,33 @@
         </g>
 	    </svg>
     </span>
-    <div class="product-content">
-      <div class="product-row">
-        <div class="product-img"></div>
-        <div class="product-title"></div>
-        <div class="product-price"></div>
-      </div>  
-    </div>  
+    <transition name="fade">
+      <div class="product-content" v-if="showProductCard">
+        <div class="product-row">
+          <div class="product-img"></div>
+          <div class="product-title"></div>
+          <div class="product-price"></div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ProductCard', 
+  name: 'ProductCard',
+  data() {
+    return {
+      showProductCard: false
+    }
+  }
 }
 </script>
+<style>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
+</style>

@@ -19,7 +19,8 @@ const User = new Schema({
     type: String,
     required: true,
     trim: true
-  }
+  },
+  userProducts: Array
 })
 
 User.statics.authenticate = function(userName, userEmail, userPassword) {
@@ -42,16 +43,6 @@ User.statics.authenticate = function(userName, userEmail, userPassword) {
     })
 }
 
-// User.pre('save', (next) => {
-//   let user = this
-//   bcrypt.hash(user.userPassword, 10, (err, hash) => {
-//     if (err) {
-//       return next(err)
-//     }
-//     user.userPassword = hash
-//     next()
-//   })
-// })
 
 
 

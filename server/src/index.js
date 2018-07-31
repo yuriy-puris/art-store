@@ -30,6 +30,7 @@ app.use(session({
     maxAge: 30 * 60 * 1000,
   },
 }))
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

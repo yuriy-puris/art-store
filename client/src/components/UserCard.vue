@@ -3,7 +3,7 @@
     <span
       class="user-icon"
       @click="showUserForm = !showUserForm">
-      <svg width="15px" height="18px" viewBox="0 0 12 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="15px" height="18px" viewBox="0 0 11 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1111.000000, -8.000000)" fill="#FFFFFF">
             <g>
