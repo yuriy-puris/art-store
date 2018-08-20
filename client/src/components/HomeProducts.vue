@@ -1,6 +1,15 @@
 <template>
   <div class="container">
     <h1>New Products</h1>
+    <ul class="test-holder">
+      <li v-for="(item, idx) in testList">
+        {{ item.testName }}
+      </li>
+    </ul>
+    <button
+      >
+      TestButton
+    </button>
     <div class="product-holder">
       <div
         v-for="(item, index) in getProductList"
@@ -15,7 +24,7 @@
           <div class="price">{{item.price}}</div>
           <button
             class="buy"
-            @click="buy(item.id)">
+            @click="advanceBuy(item)">
               Buy
           </button>
         </div>
@@ -30,30 +39,39 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'HomeProducts',
+  data() {
+    return {
+      productArray: []
+    }
+  },
   computed: mapState({
     getProductList(state) {
       return state.homeProducts.products_list
+    },
+    testList(state) {
+      return state.homeProducts.testArray
     }
   }),
   created() {
     this.getHomeProducts()
+    this.localStore()
   },
   methods: {
     getHomeProducts() {
       this.$store.dispatch('loadHomeProducts')
     },
-    async buy(id) {
-      let id_prod = {
-        'id_product': id
+    localStore() {
+      let localValue = localStorage.getItem('userProducts')
+      if (localValue !== null) {
+        let parseLocalValue = JSON.parse(localStorage.getItem('userProducts'))
+        this.productArray = parseLocalValue
       }
-      await StoreService.loadCardProduct(id_prod)
-        .then(data => {
-          let id_products = data.data
-          this.$store.dispatch('loadUserProducts', id_products )
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    },
+    advanceBuy(product) {
+      this.productArray.push(product)
+      let serialProducts = JSON.stringify(this.productArray)
+      localStorage.setItem('userProducts', serialProducts)
+      this.$store.commit('setAdvanceProduct')
     }
   }
 }

@@ -17,10 +17,21 @@
     </span>
     <transition name="fade">
       <div class="product-content" v-if="showProductCard">
-        <div class="product-row">
-          <div class="product-img"></div>
-          <div class="product-title"></div>
-          <div class="product-price"></div>
+        <div
+            class="product-row"
+            v-for="item in actualUserProducts">
+          <div
+            class="product-img"
+            v-bind:style="{ backgroundImage: 'url('+item.url+')' }">
+          </div>
+          <div class="product-title">{{item.title}}</div>
+          <div class="product-price">{{item.price}}</div>
+        </div>
+        <div class="submit-row">
+          <button
+            @click="finalBuy()">
+              Купить
+          </button>
         </div>
       </div>
     </transition>
@@ -28,13 +39,33 @@
 </template>
 
 <script>
+import StoreService from '@/services/StoreService'
+import { mapState } from 'vuex'
+
 export default {
   name: 'ProductCard',
   data() {
     return {
       showProductCard: false
     }
-  }
+  },
+  computed: mapState({
+    actualUserProducts(state) {
+      return state.cardProducts.advanceListProd
+    }
+  }),
+  mounted() {
+    this.getActualUserProducts()
+  },
+  methods: {
+    getActualUserProducts() {
+      this.$store.commit('setAdvanceProduct')
+    },
+    async finalBuy() {
+      let finalPurchases = this.$store.state.cardProducts.advanceListProd
+      await StoreService.finalBuy(finalPurchases)
+    }
+  },
 }
 </script>
 <style>

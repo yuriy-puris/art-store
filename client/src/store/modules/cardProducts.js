@@ -1,9 +1,7 @@
 import api from '@/services/api'
 
 const state = {
-  cardProd: {
-
-  }
+  advanceListProd: []
 }
 
 const actions = {
@@ -13,7 +11,10 @@ const actions = {
 }
 
 const mutations = {
-
+  setAdvanceProduct: (state) => {
+    let getLocalValue = JSON.parse(localStorage.getItem('userProducts'))
+    state.advanceListProd = getLocalValue
+  }
 }
 
 export default {

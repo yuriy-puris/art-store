@@ -75,6 +75,9 @@ export default {
       return this.$store.state.userData.userData
     }
   },
+  mounted() {
+    this.getUserData()
+  },
   methods: {
     async login() {
       if (this.loginName !== ''  &&
@@ -85,14 +88,23 @@ export default {
             }
             let auth = await StoreService.login(params)
               .then(data => {
-                this.$store.commit('setUserData', { data });
+                localStorage.setItem('userInfo', JSON.stringify(data.data))
+                this.$store.commit('setUserInfo', { data });
                 this.showUserForm = !this.showUserForm
+                this.loginName = ''
+                this.loginPassword = ''
               })
           }
     },
     goSignUp() {
       this.showUserForm = false
       this.$router.push({path: '/registration'})
+    },
+    getUserData() {
+      let localValue = localStorage.getItem('userInfo')
+      if (localValue !== null) {
+        this.$store.commit('setUserInfo')
+      }
     }
   }
 }

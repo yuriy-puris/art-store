@@ -82,7 +82,16 @@ router.post('/signup', (req, res) => {
     req.session.userId = user._id
   })
 })
-
+//final buy
+router.post('/purchase', (req, res) => {
+  let UserPurchases = {
+    products: req.body,
+    userId: req.session.userId
+  }
+  mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
+    client.db('art_products').collection('purchased_products').insertOne(UserPurchases)
+  })
+})
 
 router.get('/users', (req, res) => {
   UserModel.find({}, (err, users) => {
@@ -92,29 +101,41 @@ router.get('/users', (req, res) => {
 
 //load products
 router.post('/card-product', (req, res) => {
-  UserModel.updateOne({ _id: req.session.userId }, { $push: { userProducts: req.body.id_product } }, (err, result) => {
+  UserModel.updateOne({ _id: req.session.userId }, { $push: { userProducts: req.body } }, (err, result) => {
     if (err) {
-      return next(err)
+      console.log(err)
     }
-    console.log(result)
     res.redirect('/user-products')
   })
 })
 
 //get card user products
+// router.get('/user-products', (req, res) => {
+//   UserModel.findById(req.session.userId, (err, result) => {
+//     result.userProducts.forEach(item => {
+//       return item.id_product.indexOf()
+//     })
+//   })
+// })
+
+
 router.get('/user-products', (req, res) => {
-  UserModel.findById(req.session.userId, (err, result) => {
-    res.send(result.userProducts)
+
+  mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
+    client.db('art_products').collection('products').find().toArray((err, lat_prod) => {
+      lat_prod.forEach(item => {
+        console.log(item)
+      })
+    })
   })
+
+
 })
+
 
 //get products by id
 router.post('/list-card-product', (req, res) => {
-  mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
-    client.db('art_products').collection('products').findOne({ products: { $type: 'array' }}, 'products', (err, result) => {
-      res.send(result)
-    })
-  })
+  console.log(req.body)
 })
 
 module.exports = router

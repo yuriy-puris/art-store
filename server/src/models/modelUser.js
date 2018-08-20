@@ -20,7 +20,6 @@ const User = new Schema({
     required: true,
     trim: true
   },
-  userProducts: Array
 })
 
 User.statics.authenticate = function(userName, userEmail, userPassword) {

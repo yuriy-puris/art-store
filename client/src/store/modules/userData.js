@@ -1,13 +1,10 @@
 const state = {
-  userData: {
-    userName: '',
-    userEmail: ''
-  }
+  userData: {}
 }
 
 const mutations = {
-  setUserData: (state, { data }) => {
-    let userData = { userName: data.data.userName, userEmail: data.data.userEmail }
+  setUserInfo: (state) => {
+    let userData = JSON.parse(localStorage.getItem('userInfo'))
     state.userData = userData
   }
 }

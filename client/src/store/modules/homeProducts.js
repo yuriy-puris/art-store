@@ -1,7 +1,17 @@
 import api from '@/services/api'
 
 const state = {
-  products_list: null
+  products_list: null,
+  testArray: [
+    {
+      testName: 'Yuriy',
+      testEmail: 'TestEmail'
+    },
+    {
+      testName: 'Yuriy1',
+      testEmail: 'TestEmail1'
+    }
+  ]
 }
 
 const actions = {
