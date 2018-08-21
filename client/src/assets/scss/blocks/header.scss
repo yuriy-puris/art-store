@@ -79,13 +79,15 @@ $color-black: #000000;
   margin: 8px 0 0 5px;
   color: #d8d8d8;
 }
-.user-form {
+.user-dropdown {
   position: absolute;
   top: 100%;
   right: 0;
   width: 300px;
   padding: 20px;
   background: $color-white;
+  color: $color-black;
+  text-align: left;
   .sign-up {
     background: lighten($color-black, 50%);
     margin: 20px 0 0;
@@ -166,4 +168,7 @@ $color-black: #000000;
   overflow: hidden;
   width: 80%;
   padding: 0 10px;
+}
+.empty-note {
+  text-align: center;
 }

@@ -24,15 +24,18 @@
             class="product-img"
             v-bind:style="{ backgroundImage: 'url('+item.url+')' }">
           </div>
-          <div class="product-title">{{item.title}}</div>
-          <div class="product-price">{{item.price}}</div>
+          <div class="product-title">{{ item.title }}</div>
+          <div class="product-price">{{ item.price }}</div>
         </div>
-        <div class="submit-row">
+        <div
+          class="submit-row"
+          v-if="actualUserProducts !== null">
           <button
             @click="finalBuy()">
               Купить
           </button>
         </div>
+        <div class="empty-note" v-if="actualUserProducts === null">Your card is empty!</div>
       </div>
     </transition>
   </div>

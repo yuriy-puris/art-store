@@ -1,33 +1,37 @@
 <template>
-  <div class="registration-holder">
-    <form action="#">
-      <div class="form-row">
-        <input 
-          class="form-control"
-          type="text"
-          placeholder="Your name"
-          v-model="newName">
+  <div class="user-page">
+    <div class="container">
+      <div class="registration-holder">
+        <form action="#">
+          <div class="form-row">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Your name"
+              v-model="newName">
+          </div>
+          <div class="form-row">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Your email"
+              v-model="newEmail">
+          </div>
+          <div class="form-row">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Your password"
+              v-model="newPassword">
+          </div>
+          <input
+            type="submit"
+            value="Sign Up"
+            @click="signUp()"
+          >
+        </form>
       </div>
-      <div class="form-row">
-        <input 
-          class="form-control"
-          type="text"
-          placeholder="Your email"
-          v-model="newEmail">
-      </div>
-      <div class="form-row">
-        <input 
-          class="form-control"
-          type="text"
-          placeholder="Your password"
-          v-model="newPassword">
-      </div>
-      <input 
-        type="submit"
-        value="Sign Up"
-        @click="signUp()"
-        >  
-    </form>
+    </div>
   </div>
 </template>
 <script>
@@ -39,7 +43,8 @@ export default {
     return {
       newName: '',
       newEmail: '',
-      newPassword: ''
+      newPassword: '',
+      showUserDetails: false,
     }
   },
   methods: {
@@ -53,11 +58,16 @@ export default {
             userPassword: this.newPassword
           }
           await StoreService.signUp(params)
+            .then(data => {
+              localStorage.setItem('userInfo', JSON.stringify(data.data))
+              this.$store.commit('setUserInfo')
+              router.push({path: '/user'})
+            })
           this.newName = ''
           this.newEmail = ''
           this.newPassword = ''
       }
-    }
+    },
   }
 }
 </script>

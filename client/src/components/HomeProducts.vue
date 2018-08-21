@@ -1,15 +1,6 @@
 <template>
   <div class="container">
     <h1>New Products</h1>
-    <ul class="test-holder">
-      <li v-for="(item, idx) in testList">
-        {{ item.testName }}
-      </li>
-    </ul>
-    <button
-      >
-      TestButton
-    </button>
     <div class="product-holder">
       <div
         v-for="(item, index) in getProductList"
@@ -18,10 +9,10 @@
           class="img"
           v-bind:style="{ backgroundImage: 'url('+item.url+')' }">
         </div>
-        <div class="title">{{item.title}}</div>
-        <p>{{item.description}}</p>
+        <div class="title">{{ item.title }}</div>
+        <p>{{ item.description }}</p>
         <div class="price-holder">
-          <div class="price">{{item.price}}</div>
+          <div class="price">{{ item.price }}</div>
           <button
             class="buy"
             @click="advanceBuy(item)">
@@ -68,10 +59,25 @@ export default {
       }
     },
     advanceBuy(product) {
-      this.productArray.push(product)
-      let serialProducts = JSON.stringify(this.productArray)
-      localStorage.setItem('userProducts', serialProducts)
-      this.$store.commit('setAdvanceProduct')
+      let actualProductId = product.id
+//      product.quantity = 1
+      if (this.productArray.length === 0) {
+        this.productArray.push(product)
+      } else {
+        this.productArray.forEach(item => {
+          if (item.id == actualProductId) {
+            item.quantity++
+            console.log(item.quantity)
+          } else {
+            console.log('bad')
+//            this.productArray.push(product)
+          }
+        })
+      }
+      console.log(this.productArray)
+//      let serialProducts = JSON.stringify(this.productArray)
+//      localStorage.setItem('userProducts', serialProducts)
+//      this.$store.commit('setAdvanceProduct')
     }
   }
 }

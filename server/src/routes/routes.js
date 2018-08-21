@@ -67,6 +67,11 @@ router.post('/login', (req, res) => {
   })
 })
 
+router.post('/logout', (req, res) => {
+  req.session.destroy()
+  res.sendStatus(200)
+})
+
 router.post('/signup', (req, res) => {
   let { userName, userEmail, userPassword } = req.body
   let userDate = {
@@ -80,6 +85,11 @@ router.post('/signup', (req, res) => {
       return next(err)
     }
     req.session.userId = user._id
+    let userData = {
+      userName: user.userName,
+      userEmail: user.userEmail
+    }
+    res.send(userData)
   })
 })
 //final buy
@@ -100,14 +110,14 @@ router.get('/users', (req, res) => {
 })
 
 //load products
-router.post('/card-product', (req, res) => {
-  UserModel.updateOne({ _id: req.session.userId }, { $push: { userProducts: req.body } }, (err, result) => {
-    if (err) {
-      console.log(err)
-    }
-    res.redirect('/user-products')
-  })
-})
+// router.post('/card-product', (req, res) => {
+//   UserModel.updateOne({ _id: req.session.userId }, { $push: { userProducts: req.body } }, (err, result) => {
+//     if (err) {
+//       console.log(err)
+//     }
+//     res.redirect('/user-products')
+//   })
+// })
 
 //get card user products
 // router.get('/user-products', (req, res) => {
@@ -128,14 +138,6 @@ router.get('/user-products', (req, res) => {
       })
     })
   })
-
-
-})
-
-
-//get products by id
-router.post('/list-card-product', (req, res) => {
-  console.log(req.body)
 })
 
 module.exports = router

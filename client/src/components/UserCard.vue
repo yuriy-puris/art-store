@@ -2,7 +2,7 @@
   <div class="user-card">
     <span
       class="user-icon"
-      @click="showUserForm = !showUserForm">
+      @click="showUserDropDown = !showUserDropDown">
       <svg width="15px" height="18px" viewBox="0 0 11 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1111.000000, -8.000000)" fill="#FFFFFF">
@@ -23,34 +23,43 @@
       {{userData.userName}}
     </router-link>
     <transition name="fade">
-      <div class="user-form" v-if="showUserForm">
-        <form action="#">
-          <div class="form-row">
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Your name"
-              v-model="loginName">
-          </div>
-          <div class="form-row">
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Your password"
-              v-model="loginPassword">
-          </div>
-        </form>
-        <input
-          type="submit"
-          value="Log In"
-          @click="login()"
-        >
-        <span
-          class="sign-up"
-          @click="goSignUp()"
-        >
-          Sign Up
-        </span>
+      <div class="user-dropdown" v-if="showUserDropDown">
+        <div class="user-form" v-if="showUserForm">
+          <form action="#">
+            <div class="form-row">
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Your name"
+                v-model="loginName">
+            </div>
+            <div class="form-row">
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Your password"
+                v-model="loginPassword">
+            </div>
+          </form>
+          <input
+            type="submit"
+            value="Log In"
+            @click="login()"
+          >
+          <span
+            class="sign-up"
+            @click="goSignUp()"
+            >
+            Sign Up
+          </span>
+        </div>
+        <div class="user-info" v-if="showUserInfo">
+          <p>Hello, <strong>{{userData.userName}}</strong></p>
+          <input
+            type="submit"
+            value="Log Out"
+            @click="logout()">
+        </div>
       </div>
     </transition>
   </div>
@@ -65,7 +74,9 @@ export default {
   data() {
     return {
       userInfo: false,
-      showUserForm: false,
+      showUserDropDown: false,
+      showUserInfo: false,
+      showUserForm: true,
       loginName: '',
       loginPassword: ''
     }
@@ -86,26 +97,41 @@ export default {
               loginName: this.loginName,
               loginPassword: this.loginPassword
             }
-            let auth = await StoreService.login(params)
+            await StoreService.login(params)
               .then(data => {
                 localStorage.setItem('userInfo', JSON.stringify(data.data))
-                this.$store.commit('setUserInfo', { data });
+                this.$store.commit('setUserInfo', { data })
+                this.showUserDropDown = !this.showUserDropDown
+                this.showUserInfo = !this.showUserInfo
                 this.showUserForm = !this.showUserForm
                 this.loginName = ''
                 this.loginPassword = ''
               })
           }
     },
+    async logout() {
+      await StoreService.logout()
+        .then(data => {
+          if (data.status == 200) {
+            this.$store.commit('removeUserInfo')
+            this.showUserInfo = !this.showUserInfo
+            this.showUserForm = !this.showUserForm
+          }
+        })
+    },
     goSignUp() {
-      this.showUserForm = false
+      this.showUserDropDown = false
       this.$router.push({path: '/registration'})
     },
     getUserData() {
       let localValue = localStorage.getItem('userInfo')
       if (localValue !== null) {
         this.$store.commit('setUserInfo')
+        this.showUserForm = !this.showUserForm
+        this.showUserInfo = !this.showUserInfo
       }
-    }
+    },
+
   }
 }
 </script>

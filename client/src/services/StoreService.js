@@ -10,6 +10,9 @@ export default {
   login(params) {
     return api().post('login', params)
   },
+  logout() {
+    return api().post('logout')
+  },
   finalBuy(params) {
     return api().post('purchase', params)
   },
