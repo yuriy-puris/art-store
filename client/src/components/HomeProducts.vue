@@ -59,22 +59,7 @@ export default {
       }
     },
     advanceBuy(product) {
-      let actualProductId = product.id
-//      product.quantity = 1
-      if (this.productArray.length === 0) {
-        this.productArray.push(product)
-      } else {
-        this.productArray.forEach(item => {
-          if (item.id == actualProductId) {
-            item.quantity++
-            console.log(item.quantity)
-          } else {
-            console.log('bad')
-//            this.productArray.push(product)
-          }
-        })
-      }
-      console.log(this.productArray)
+      this.$store.commit('setAdvanceProduct', { product })
 //      let serialProducts = JSON.stringify(this.productArray)
 //      localStorage.setItem('userProducts', serialProducts)
 //      this.$store.commit('setAdvanceProduct')

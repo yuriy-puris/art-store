@@ -26,6 +26,7 @@
           </div>
           <div class="product-title">{{ item.title }}</div>
           <div class="product-price">{{ item.price }}</div>
+          <div class="product-quantity">{{ item.quantity }}</div>
         </div>
         <div
           class="submit-row"
@@ -54,7 +55,7 @@ export default {
   },
   computed: mapState({
     actualUserProducts(state) {
-      return state.cardProducts.advanceListProd
+      return state.advanceProducts.advanceProducts
     }
   }),
   mounted() {
@@ -62,11 +63,16 @@ export default {
   },
   methods: {
     getActualUserProducts() {
-      this.$store.commit('setAdvanceProduct')
+      this.$store.commit('setAdvanceProduct', {})
     },
     async finalBuy() {
-      let finalPurchases = this.$store.state.cardProducts.advanceListProd
+      let finalPurchases = this.$store.state.advanceProducts.advanceProducts
       await StoreService.finalBuy(finalPurchases)
+        .then(data => {
+          if (data.status == 200) {
+            this.$store.commit('removeAdvanceProducts')
+          }
+        })
     }
   },
 }

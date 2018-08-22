@@ -100,6 +100,7 @@ router.post('/purchase', (req, res) => {
   }
   mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
     client.db('art_products').collection('purchased_products').insertOne(UserPurchases)
+    res.sendStatus(200)
   })
 })
 
