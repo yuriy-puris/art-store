@@ -11,10 +11,14 @@ const mutations = {
       state.advanceProducts = JSON.parse(localStorage.getItem('advanceProducts'))
       return false
     }
+    // если добавляется продукт
+    // образуем массив
+    // присваеваем текущему продукту кол-во = 1
     state.advanceProducts = []
     product.quantity = 1
     let match = false,
         id
+    // забираем ранее купленные продукты
     if (localStorage.getItem('advanceProducts') !== null) {
       state.advanceProducts = JSON.parse(localStorage.getItem('advanceProducts'))
     }
