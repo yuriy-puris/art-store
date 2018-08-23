@@ -99,8 +99,35 @@ router.post('/purchase', (req, res) => {
     userId: req.session.userId
   }
   mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
-    client.db('art_products').collection('purchased_products').insertOne(UserPurchases)
-    res.sendStatus(200)
+    client.db('art_products').collection('purchased_products').findOne({ userId: req.session.userId }, (err, result) => {
+      if (err) {
+        client.db('art_products').collection('purchased_products').insertOne(UserPurchases)
+      } else {
+        console.log(result)
+        // res.sendStatus(200)
+      }
+    })
+  })
+})
+
+router.post('/checkout', (req, res) => {
+  UserModel.findOne({ _id: req.session.userId }, (err, result) => {
+    if (err) {
+      res.set('Set-Cookie','purchase=false')
+      res.sendStatus(200)
+    } else {
+      mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
+        client.db('art_products').collection('purchased_products').findOne({ userId: req.session.userId }, (err, result) => {
+          if (result === null) {
+            res.set('Set-Cookie','purchase=false')
+            res.sendStatus(200)
+          } else {
+            res.set('Set-Cookie','purchase=true')
+            res.send(result.products)
+          }
+        })
+      })
+    }
   })
 })
 
@@ -131,7 +158,6 @@ router.get('/users', (req, res) => {
 
 
 router.get('/user-products', (req, res) => {
-
   mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
     client.db('art_products').collection('products').find().toArray((err, lat_prod) => {
       lat_prod.forEach(item => {

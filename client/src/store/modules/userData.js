@@ -8,7 +8,7 @@ const mutations = {
     state.userData = userData
   },
   removeUserInfo: (state) => {
-    JSON.parse(localStorage.removeItem('userInfo'))
+    localStorage.removeItem('userInfo')
     state.userData = {}
   }
 }

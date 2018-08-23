@@ -54,7 +54,7 @@
           </span>
         </div>
         <div class="user-info" v-if="showUserInfo">
-          <p>Hello, <strong>{{userData.userName}}</strong></p>
+          <p>Hello, <strong>{{ userData.userName }}</strong></p>
           <input
             type="submit"
             value="Log Out"
@@ -121,7 +121,7 @@ export default {
     },
     goSignUp() {
       this.showUserDropDown = false
-      this.$router.push({path: '/registration'})
+      this.$router.push({name: 'NewUser'})
     },
     getUserData() {
       let localValue = localStorage.getItem('userInfo')

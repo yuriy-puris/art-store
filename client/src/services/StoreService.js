@@ -16,6 +16,9 @@ export default {
   finalBuy(params) {
     return api().post('purchase', params)
   },
+  checkout() {
+    return api().post('checkout')
+  },
   startPage() {
     return api().get('/')
   },

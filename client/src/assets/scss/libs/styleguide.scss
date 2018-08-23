@@ -195,8 +195,11 @@ p {
 }
 table {
   width: 100%;
-  td {
+  td, th {
     padding: 10px;
     border: 1px solid $color-black;
+  }
+  th {
+    font-weight: 400;
   }
 }

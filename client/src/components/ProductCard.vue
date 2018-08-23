@@ -2,7 +2,7 @@
   <div class="product-card">
     <span
       class="icon-card"
-      @click="showProductCard = !showProductCard">
+      @click="switchBusket()">
       <svg width="18px" height="18px" viewBox="0 0 16 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1207.000000, -7.000000)" fill="#FFFFFF">
@@ -32,7 +32,7 @@
           class="submit-row"
           v-if="actualUserProducts !== null">
           <button
-            @click="finalBuy()">
+            @click="redirectCheckout()">
               Купить
           </button>
         </div>
@@ -48,14 +48,12 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'ProductCard',
-  data() {
-    return {
-      showProductCard: false
-    }
-  },
   computed: mapState({
     actualUserProducts(state) {
       return state.advanceProducts.advanceProducts
+    },
+    showProductCard(state) {
+      return state.cardProducts.showProductCard
     }
   }),
   mounted() {
@@ -65,14 +63,12 @@ export default {
     getActualUserProducts() {
       this.$store.commit('setAdvanceProduct', {})
     },
-    async finalBuy() {
-      let finalPurchases = this.$store.state.advanceProducts.advanceProducts
-      await StoreService.finalBuy(finalPurchases)
-        .then(data => {
-          if (data.status == 200) {
-            this.$store.commit('removeAdvanceProducts')
-          }
-        })
+    switchBusket() {
+      this.$store.commit('switchProductCard')
+    },
+    async redirectCheckout() {
+      this.switchBusket()
+      this.$router.push({name: 'Checkout'})
     }
   },
 }

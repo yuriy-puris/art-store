@@ -1,0 +1,36 @@
+.wrapper-checkout {
+  display: flex;
+}
+.form-checkout {
+  margin: 0 0 50px;
+  @include media('>=tablet') {
+    width: 40%;
+    margin-right: 10%;
+  }
+  &.form-login {
+    .form-control {
+      background: transparent;
+      border-color: transparent;
+      padding: 0;
+      outline: none;
+    }
+  }
+  .form-control {
+    font-size: 17px;
+  }
+  label {
+    font-size: 13px;
+  }
+}
+.card-purchases {
+  @include media('>=tablet') {
+    width: 50%;
+  }
+  table {
+    margin: 0 0 20px;
+    text-align: center;
+  }
+  .product-img {
+    display: inline-block;
+  }
+}

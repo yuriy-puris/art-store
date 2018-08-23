@@ -1,24 +1,14 @@
-import api from '@/services/api'
-
 const state = {
-  advanceListProd: []
-}
-
-const actions = {
-  loadUserProducts: async ({ commit }, id_products) => {
-    let listProducts = await api().post('list-card-product', id_products)
-  }
+  showProductCard: false
 }
 
 const mutations = {
-  setAdvanceProduct: (state) => {
-    let getLocalValue = JSON.parse(localStorage.getItem('userProducts'))
-    state.advanceListProd = getLocalValue
+  switchProductCard: (state) => {
+     state.showProductCard = !state.showProductCard
   }
 }
 
 export default {
   state,
-  actions,
   mutations
 }

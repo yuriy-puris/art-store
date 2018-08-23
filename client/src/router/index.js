@@ -4,6 +4,8 @@ import HomePage from '@/components/HomePage'
 import NewUser from '@/components/NewUser'
 import Categories from '@/components/categories/Categories'
 import User from '@/components/User'
+import Checkout from '@/components/Checkout'
+import ThanksPage from '@/components/ThanksPage'
 
 Vue.use(Router)
 
@@ -29,6 +31,16 @@ export default new Router({
       path: '/user',
       name: 'User',
       component: User
+    },
+    {
+      path: '/checkout',
+      name: 'Checkout',
+      component: Checkout
+    },
+    {
+      path: '/thanks',
+      name: 'ThanksPage',
+      component: ThanksPage
     }
   ]
 })
