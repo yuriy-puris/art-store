@@ -16,7 +16,7 @@
       </svg>
     </span>
     <router-link
-      v-if="userData.userName !== ''"
+      v-if="userData !== null"
       :to="{ name: 'User' }"
       class="user-name"
     >
@@ -114,6 +114,7 @@ export default {
         .then(data => {
           if (data.status == 200) {
             this.$store.commit('removeUserInfo')
+            this.$store.commit('removeAdvanceProducts')
             this.showUserInfo = !this.showUserInfo
             this.showUserForm = !this.showUserForm
           }

@@ -89,44 +89,38 @@ router.post('/signup', (req, res) => {
       userName: user.userName,
       userEmail: user.userEmail
     }
-    res.send(userData)
+    return res.send(userData)
   })
 })
 //final buy
 router.post('/purchase', (req, res) => {
-  let UserPurchases = {
-    products: req.body,
-    userId: req.session.userId
-  }
-  mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
-    client.db('art_products').collection('purchased_products').findOne({ userId: req.session.userId }, (err, result) => {
-      if (err) {
-        client.db('art_products').collection('purchased_products').insertOne(UserPurchases)
-      } else {
-        console.log(result)
-        // res.sendStatus(200)
-      }
-    })
-  })
-})
+    let actualUserId = req.session.userId,
+        date = new Date(),
+        dateString = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
+        date.getHours() + ":" + date.getMinutes();
 
+    let UserPurchases = {
+        products: req.body.purchases,
+        totalAmount: req.body.totalSumm,
+        userId: actualUserId,
+        date: date
+    }
+    mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
+      client.db('art_products').collection('purchased_products').insertOne(UserPurchases)
+        res.sendStatus(200)
+    })
+})
 router.post('/checkout', (req, res) => {
+  console.log(req.session.userId)
   UserModel.findOne({ _id: req.session.userId }, (err, result) => {
     if (err) {
-      res.set('Set-Cookie','purchase=false')
-      res.sendStatus(200)
+      console.log(err)
     } else {
-      mongoClient.connect('mongodb://yuriy:kldu57nv@ds121461.mlab.com:21461/art_products', (err, client) => {
-        client.db('art_products').collection('purchased_products').findOne({ userId: req.session.userId }, (err, result) => {
-          if (result === null) {
-            res.set('Set-Cookie','purchase=false')
-            res.sendStatus(200)
-          } else {
-            res.set('Set-Cookie','purchase=true')
-            res.send(result.products)
-          }
-        })
-      })
+      if( result === null ) {
+        res.set('Set-Cookie','login=false', {expires: -1})
+      } else {
+        res.set('Set-Cookie','login=true')
+      }
     }
   })
 })

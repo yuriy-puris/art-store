@@ -30,39 +30,25 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'HomeProducts',
-  data() {
-    return {
-      productArray: []
-    }
+  computed: {
+    ...mapState({
+      getProductList(state) {
+        return state.homeProducts.products_list
+      },
+      testList(state) {
+        return state.homeProducts.testArray
+      },
+    }),
   },
-  computed: mapState({
-    getProductList(state) {
-      return state.homeProducts.products_list
-    },
-    testList(state) {
-      return state.homeProducts.testArray
-    }
-  }),
   created() {
     this.getHomeProducts()
-    this.localStore()
   },
   methods: {
     getHomeProducts() {
       this.$store.dispatch('loadHomeProducts')
     },
-    localStore() {
-      let localValue = localStorage.getItem('userProducts')
-      if (localValue !== null) {
-        let parseLocalValue = JSON.parse(localStorage.getItem('userProducts'))
-        this.productArray = parseLocalValue
-      }
-    },
     advanceBuy(product) {
       this.$store.commit('setAdvanceProduct', { product })
-//      let serialProducts = JSON.stringify(this.productArray)
-//      localStorage.setItem('userProducts', serialProducts)
-//      this.$store.commit('setAdvanceProduct')
     }
   }
 }

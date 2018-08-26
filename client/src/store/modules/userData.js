@@ -1,5 +1,5 @@
 const state = {
-  userData: {}
+  userData: null
 }
 
 const mutations = {
@@ -9,7 +9,7 @@ const mutations = {
   },
   removeUserInfo: (state) => {
     localStorage.removeItem('userInfo')
-    state.userData = {}
+    state.userData = null
   }
 }
 

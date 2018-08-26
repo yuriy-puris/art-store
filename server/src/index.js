@@ -22,20 +22,20 @@ app.use(session({
   saveUninitialized: true,
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
-    ttl: 2 *  4 * 60 * 60
+    ttl: 20 *  4 * 60 * 60
   }),
   cookie: { 
     secure: false, 
     httpOnly: false,
-    maxAge: 30 * 60 * 1000,
+    maxAge: 300 * 60 * 1000,
   },
 }))
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  next()
+})
 
 app.use(morgan('combined'))
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -44,7 +44,7 @@ app.use(cors({
   origin:['http://localhost:8080'],
   methods:['GET','POST'],
   credentials: true
-}));
+}))
 
 app.use(cookieParser())
 

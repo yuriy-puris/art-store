@@ -175,3 +175,21 @@ $color-black: #000000;
 .empty-note {
   text-align: center;
 }
+.total-amount {
+  margin: 10px 0;
+  padding: 10px 0;
+  border: 1px solid;
+  border-color: $color-grey transparent;
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+  span {
+    font-size: 18px;
+    float: right;
+  }
+}
+.btn-card {
+  width: 100%;
+}

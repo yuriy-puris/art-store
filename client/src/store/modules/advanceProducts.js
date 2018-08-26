@@ -1,5 +1,6 @@
 const state = {
   advanceProducts: null,
+  totalAmount: null
 }
 
 const mutations = {
@@ -9,6 +10,7 @@ const mutations = {
         return false
       }
       state.advanceProducts = JSON.parse(localStorage.getItem('advanceProducts'))
+      state.totalAmount = JSON.parse(localStorage.getItem('totalAmount'))
       return false
     }
     // если добавляется продукт
@@ -41,16 +43,29 @@ const mutations = {
         }
       })
     }
+    // считаем общую сумму продуктов
+    let price_arr = state.advanceProducts.map(item => item.price * item.quantity )
+    state.totalAmount = price_arr.reduce((prev, current) => prev + current)
+    // сохраняем предварительную покупку и общую сумму
     localStorage.setItem('advanceProducts', JSON.stringify(state.advanceProducts))
+    localStorage.setItem('totalAmount', JSON.stringify(state.totalAmount))
   },
   removeAdvanceProducts: (state) => {
     localStorage.removeItem('advanceProducts')
+    localStorage.removeItem('totalAmount')
     state.advanceProducts = null
+    state.totalAmount = null
   }
 }
 
+const getters = {
+  totalAmount: (state) => {
+    console.log(state.totalAmount)
+  }
+}
 
 export default {
   state,
   mutations,
+  getters
 }

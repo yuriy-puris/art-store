@@ -3,7 +3,10 @@
     <h1>Checkout</h1>
     <div class="container">
       <div class="wrapper-checkout">
-        <form :class="['form-checkout', loginUser ? 'form-login' : 'form-quest']" action="#">
+        <form
+          v-if="loginUser"
+          class="['form-checkout', 'form-login']"
+          action="#">
           <div class="form-row">
             <label for="name">Your name</label>
             <input
@@ -26,6 +29,38 @@
               id="phone"
               type="phone"
               class="form-control">
+          </div>
+        </form>
+        <form
+          action="#"
+          class="form-checkout"
+          v-else>
+          <div class="form-row">
+            <label for="name">Your name</label>
+            <input
+              id="name"
+              type="text"
+              class="form-control"
+              v-model="unbookedUser.name"
+              placeholder="Enter your name...">
+          </div>
+          <div class="form-row">
+            <label for="email">Your email</label>
+            <input
+              id="email"
+              type="email"
+              class="form-control"
+              v-model="unbookedUser.email"
+              placeholder="Enter your email...">
+          </div>
+          <div class="form-row">
+            <label for="phone">Your phone</label>
+            <input
+              id="phone"
+              type="phone"
+              class="form-control"
+              v-model="unbookedUser.phone"
+              placeholder="Enter your phone...">
           </div>
         </form>
         <div class="card-purchases">
@@ -52,6 +87,10 @@
               </tr>
             </tbody>
           </table>
+          <div
+            class="total-amount">
+            Total amount: <span>{{ totalAmount }}</span>
+          </div>
           <input
             type="submit"
             value="Buy"
@@ -63,29 +102,40 @@
 </template>
 <script>
   import StoreService from '@/services/StoreService'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'Checkout',
     data() {
       return {
-        loginUser: true
+        loginUser: true,
+        unbookedUser: {
+          name: {
+            required: true
+          },
+          email: {
+            required: true
+          },
+          phone: {
+            type: Number,
+            required: true
+          }
+        }
       }
     },
-    computed: {
-      userData() {
-        return this.$store.state.userData.userData
+    computed: mapState({
+      userData(state) {
+        return state.userData.userData
       },
-      userAdvancedProducts() {
-        return this.$store.state.advanceProducts.advanceProducts
+      userAdvancedProducts(state) {
+        return state.advanceProducts.advanceProducts
+      },
+      totalAmount(state) {
+        return state.advanceProducts.totalAmount
       }
-    },
+    }),
     methods: {
       async loadUserData() {
-//          if (localStorage.getItem('advanceProducts') === null) {
-//            this.loginUser = !this.loginUser
-//          } else {
-//            await StoreService.checkout()
-//          }
         await StoreService.checkout()
           .then(data => {
             // parse cookie
@@ -95,7 +145,7 @@
               let i = item.split('=')
               cookieObj[i[0]] = i[1]
             })
-            if (!cookieObj.purchase) {
+            if (!cookieObj.login) {
               this.loginUser = false
               this.getUserAdvancedProducts()
             } else {
@@ -111,14 +161,23 @@
         this.$store.commit('setAdvanceProduct', {})
       },
       async finalBuy() {
-        let finalPurchases = this.$store.state.advanceProducts.advanceProducts
-        await StoreService.finalBuy(finalPurchases)
-          .then(data => {
-            if (data.status == 200) {
-              this.$store.commit('removeAdvanceProducts')
-              this.$router.push({ name: 'ThanksPage' })
-            }
-        })
+        let finalPurchases = this.$store.state.advanceProducts.advanceProducts,
+            finalSumm = this.$store.state.advanceProducts.totalAmount
+        let finalData = {
+          purchases: finalPurchases,
+          totalSumm: finalSumm
+        }
+        if (!login) {
+          finalData.userInfo = this.unbookedUser
+        }
+        console.log(finalData)
+//        await StoreService.finalBuy(finalData)
+//          .then(data => {
+//            if (data.status == 200) {
+//              this.$store.commit('removeAdvanceProducts')
+//              this.$router.push({ name: 'ThanksPage' })
+//            }
+//        })
       }
     },
     created() {

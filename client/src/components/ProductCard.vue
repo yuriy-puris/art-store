@@ -29,11 +29,17 @@
           <div class="product-quantity">{{ item.quantity }}</div>
         </div>
         <div
+          v-if="actualUserProducts !== null"
+          class="total-amount">
+          Total amount: <span>{{ totalAmount }}</span>
+        </div>
+        <div
           class="submit-row"
           v-if="actualUserProducts !== null">
           <button
+            class="btn-card"
             @click="redirectCheckout()">
-              Купить
+              Buy
           </button>
         </div>
         <div class="empty-note" v-if="actualUserProducts === null">Your card is empty!</div>
@@ -54,6 +60,9 @@ export default {
     },
     showProductCard(state) {
       return state.cardProducts.showProductCard
+    },
+    totalAmount(state) {
+      return state.advanceProducts.totalAmount
     }
   }),
   mounted() {
@@ -69,7 +78,7 @@ export default {
     async redirectCheckout() {
       this.switchBusket()
       this.$router.push({name: 'Checkout'})
-    }
+    },
   },
 }
 </script>
