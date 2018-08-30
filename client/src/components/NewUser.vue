@@ -24,6 +24,13 @@
               placeholder="Your password"
               v-model="newPassword">
           </div>
+          <div class="form-row">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Your phone"
+              v-model="newPhone">
+          </div>
           <input
             type="submit"
             value="Sign Up"
@@ -44,6 +51,7 @@ export default {
       newName: '',
       newEmail: '',
       newPassword: '',
+      newPhone: '',
       showUserDetails: false,
     }
   },
@@ -51,11 +59,13 @@ export default {
     async signUp() {
       if (this.newName !== '' &&
         this.newEmail !== ''  &&
-        this.newPassword !== '' ) {
+        this.newPassword !== '' &&
+        this.newPhone !== '') {
           const params = {
             userName: this.newName,
             userEmail: this.newEmail,
-            userPassword: this.newPassword
+            userPassword: this.newPassword,
+            userPhone: this.newPhone
           }
           await StoreService.signUp(params)
             .then(data => {
@@ -66,6 +76,7 @@ export default {
           this.newName = ''
           this.newEmail = ''
           this.newPassword = ''
+          this.newPhone = ''
       }
     },
   }

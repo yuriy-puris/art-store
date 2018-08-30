@@ -18,9 +18,8 @@
     <router-link
       v-if="userData !== null"
       :to="{ name: 'User' }"
-      class="user-name"
-    >
-      {{userData.userName}}
+      class="user-name">
+        {{ userData.userName }}
     </router-link>
     <transition name="fade">
       <div class="user-dropdown" v-if="showUserDropDown">
@@ -44,12 +43,10 @@
           <input
             type="submit"
             value="Log In"
-            @click="login()"
-          >
+            @click="login()">
           <span
             class="sign-up"
-            @click="goSignUp()"
-            >
+            @click="goSignUp()">
             Sign Up
           </span>
         </div>
@@ -132,7 +129,6 @@ export default {
         this.showUserInfo = !this.showUserInfo
       }
     },
-
   }
 }
 </script>

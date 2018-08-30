@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const bcrypt = require('bcrypt')
 
 const User = new Schema({
   userName: {
@@ -20,30 +19,11 @@ const User = new Schema({
     required: true,
     trim: true
   },
+  userPhone: {
+    type: Number,
+    required: true,
+    trim: true
+  }
 })
 
-User.statics.authenticate = function(userName, userEmail, userPassword) {
-  UserModel.findOne({ email: email })
-    .exec((err, user) => {
-      if (err) {
-        return callback(err)
-      } else if (!user) {
-        let err = new Error('User not found')
-        err.status = 401
-        return callback(err)
-      }
-      bcrypt.compare(userPassword, user.userPassword, (err, result) => {
-        if (result === true) {
-          return callback(null, user)
-        } else {
-          return callback()
-        }
-      })
-    })
-}
-
-
-
-
-const UserModel = mongoose.model('users', User)
-module.exports = UserModel
+module.exports = mongoose.model('users', User)
