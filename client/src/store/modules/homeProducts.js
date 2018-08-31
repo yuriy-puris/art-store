@@ -1,23 +1,15 @@
-import api from '@/services/api'
+import StoreService from '@/services/StoreService'
 
 const state = {
   products_list: null,
-  testArray: [
-    {
-      testName: 'Yuriy',
-      testEmail: 'TestEmail'
-    },
-    {
-      testName: 'Yuriy1',
-      testEmail: 'TestEmail1'
-    }
-  ]
 }
 
 const actions = {
   loadHomeProducts: async ({ commit }) => {
-    let products_list = await api().get('latest_products')
-    commit('setProductsList', { products: products_list })
+    await StoreService.latestProducts()
+      .then(data => {
+        commit('setProductsList', { products: data })
+      })
   }
 }
 

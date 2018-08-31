@@ -1,5 +1,4 @@
 const express = require('express')
-
 // require modules
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -14,12 +13,6 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const mongoClient = require("mongodb").MongoClient
 
-const app = express()
-
-mongoose.connect(config.dbURL, config.dbOptions)
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.log(err))
-
 // require routes
 const authRoutes = require('./routes/auth')
 const categoriesRoutes = require('./routes/categories')
@@ -27,6 +20,12 @@ const menuRoutes = require('./routes/menu')
 const latestProductsRoutes = require('./routes/latest_products')
 const purchaseRoutes = require('./routes/purchase')
 const checkoutRoutes = require('./routes/checkout')
+
+const app = express()
+
+mongoose.connect(config.dbURL, config.dbOptions)
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.log(err))
 
 // use modules
 app.use(morgan('combined'))
@@ -42,9 +41,9 @@ app.use(cookieParser())
 
 // use routes
 app.use('/api/auth', authRoutes)
-app.use('/menu', menuRoutes)
+app.use('/api/menu', menuRoutes)
 app.use('/api/categories', categoriesRoutes)
-app.use('/api/latest_products', latestProductsRoutes)
+app.use('/api/products', latestProductsRoutes)
 app.use('/api/purchase', purchaseRoutes)
 app.use('/api/checkout', checkoutRoutes)
 

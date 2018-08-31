@@ -2,7 +2,7 @@ import api from '@/services/api'
 
 export default {
   getMenu() {
-    return api().get('menu')
+    return api().get('api/menu/main-menu')
   },
   signUp(params) {
     return api().post('signup', params)
@@ -18,6 +18,9 @@ export default {
   },
   checkout() {
     return api().post('checkout')
+  },
+  latestProducts() {
+    return api().get('api/products/latest-products')
   },
   startPage() {
     return api().get('/')

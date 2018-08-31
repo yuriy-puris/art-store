@@ -1,4 +1,4 @@
-import axios from 'axios'
+import StoreService from '@/services/StoreService'
 
 const state = {
   menu_list: null
@@ -6,8 +6,10 @@ const state = {
 
 const actions = {
   loadMenuList: async ({ commit }) => {
-    let menu_list = await axios.get('http://localhost:8081/menu')
-    commit('setMenuList', { menu: menu_list })
+    await StoreService.getMenu()
+      .then(data => {
+        commit('setMenuList', { menu: data })
+      })
   }
 }
 
