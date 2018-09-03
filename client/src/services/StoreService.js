@@ -5,13 +5,13 @@ export default {
     return api().get('api/menu/main-menu')
   },
   signUp(params) {
-    return api().post('signup', params)
+    return api().post('api/auth/signup', params)
   },
   login(params) {
-    return api().post('login', params)
+    return api().post('api/auth/login', params)
   },
   logout() {
-    return api().post('logout')
+    return api().post('api/auth/logout')
   },
   finalBuy(params) {
     return api().post('purchase', params)

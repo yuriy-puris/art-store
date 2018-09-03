@@ -21,21 +21,20 @@
             <input
               class="form-control"
               type="text"
-              placeholder="Your password"
-              v-model="newPassword">
+              placeholder="Your phone"
+              v-model="newPhone">
           </div>
           <div class="form-row">
             <input
               class="form-control"
               type="text"
-              placeholder="Your phone"
-              v-model="newPhone">
+              placeholder="Your password"
+              v-model="newPassword">
           </div>
           <input
             type="submit"
             value="Sign Up"
-            @click="signUp()"
-          >
+            @click="signUp()">
         </form>
       </div>
     </div>
@@ -50,8 +49,8 @@ export default {
     return {
       newName: '',
       newEmail: '',
-      newPassword: '',
       newPhone: '',
+      newPassword: '',
       showUserDetails: false,
     }
   },
@@ -64,8 +63,8 @@ export default {
           const params = {
             userName: this.newName,
             userEmail: this.newEmail,
-            userPassword: this.newPassword,
-            userPhone: this.newPhone
+            userPhone: this.newPhone,
+            userPassword: this.newPassword
           }
           await StoreService.signUp(params)
             .then(data => {
@@ -73,10 +72,10 @@ export default {
               this.$store.commit('setUserInfo')
               router.push({path: '/user'})
             })
-          this.newName = ''
-          this.newEmail = ''
-          this.newPassword = ''
-          this.newPhone = ''
+//          this.newName = ''
+//          this.newEmail = ''
+//          this.newPhone = ''
+//          this.newPassword = ''
       }
     },
   }

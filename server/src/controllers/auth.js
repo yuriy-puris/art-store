@@ -1,50 +1,49 @@
 const UserModel = require('../models/modelUser')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
-module.exports.login = (req, res) => {
-  let { loginName, loginPassword } = req.body
-  UserModel.findOne({ userName: loginName }, 'userName userEmail userPassword', (err, user) => {
-    if (err) {
-      console.log('invalid login')
-      return res.send(401).send('invalid login')
+module.exports.login = async (req, res) => {
+  // check email
+  let candidate = await UserModel.findOne({userEmail: req.body.userEmail})
+  if (candidate) {
+    const checkPassword = bcrypt.compareSync(req.body.userPassword, candidate.userPassword)
+    if (checkPassword) {
+      // generate token
+      const token = '';
     } else {
-      let passwordCheck = bcrypt.compare(loginPassword, user.userPassword)
-      if (passwordCheck) {
-        req.session.userId = user._id
-        let userData = {
-          userName: user.userName,
-          userEmail: user.userEmail
-        }
-        return res.send(userData)
-      } else {
-        console.log('invalid password')
-        return res.send(400).send('invalid password')
-      }
+      res.status(401).send({message: 'Password is not match.'})
     }
-  })
-};
+  } else {
+    res.status(404).send({message: 'This user do not exist.'})
+  }
+}
 
 module.exports.signup = async (req, res) => {
   // check email
-  const candidate = await UserModel.findOne({email: req.body.userEmail})
+  const candidate = await UserModel.findOne({userEmail: req.body.userEmail})
 
-
-  const newUser = new UserModel({
-    name: req.body.userName,
-    email: req.body.userEmail,
-    password: req.body.userPassword,
-    phone: bcrypt.hashSync(req.body.userPhone, bcrypt.genSaltSync(5))
-  })
-
-  newUser.save()
-    .then((user) => {
-      console.log('User succesfully created')
-      let userData = {
-        userName: user.userName,
-        userEmail: user.userEmail
-      }
-      res.send(userData)
+  if (candidate) {
+    // this email already exist
+    res.status(409).send({message: 'this email already exist'})
+  } else {
+    const newUser = new UserModel({
+      userName: req.body.userName,
+      userEmail: req.body.userEmail,
+      userPhone: req.body.userPhone,
+      userPassword: bcrypt.hashSync(req.body.userPassword, bcrypt.genSaltSync(5))
     })
 
+    try {
+      await newUser.save()
+      let userData = {
+        userName: req.body.userName,
+        userEmail: req.body.userEmail
+      }
+      res.status(201).send(userData)
+    } catch(err) {
+      console.log(err)
+    }
+  }
 }
 
 module.exports.logout = (req, res) => {
