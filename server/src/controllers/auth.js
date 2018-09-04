@@ -1,15 +1,21 @@
 const UserModel = require('../models/modelUser')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const config = require('../config/config')
+const errorHandler = require('../utils/errorHandler')
 
 module.exports.login = async (req, res) => {
   // check email
-  let candidate = await UserModel.findOne({userEmail: req.body.userEmail})
+  let candidate = await UserModel.findOne({userEmail: req.body.loginEmail})
   if (candidate) {
-    const checkPassword = bcrypt.compareSync(req.body.userPassword, candidate.userPassword)
+    const checkPassword = bcrypt.compareSync(req.body.loginPassword, candidate.userPassword)
     if (checkPassword) {
       // generate token
-      const token = '';
+      const token = jwt.sign({
+        userEmail: candidate.userEmail,
+        userId: candidate._id
+      }, config.jwt, {expiresIn: 60 * 60})
+      res.status(200).send({token: `Bearer ${token}`})
     } else {
       res.status(401).send({message: 'Password is not match.'})
     }
@@ -21,7 +27,6 @@ module.exports.login = async (req, res) => {
 module.exports.signup = async (req, res) => {
   // check email
   const candidate = await UserModel.findOne({userEmail: req.body.userEmail})
-
   if (candidate) {
     // this email already exist
     res.status(409).send({message: 'this email already exist'})
@@ -32,7 +37,6 @@ module.exports.signup = async (req, res) => {
       userPhone: req.body.userPhone,
       userPassword: bcrypt.hashSync(req.body.userPassword, bcrypt.genSaltSync(5))
     })
-
     try {
       await newUser.save()
       let userData = {
@@ -40,8 +44,8 @@ module.exports.signup = async (req, res) => {
         userEmail: req.body.userEmail
       }
       res.status(201).send(userData)
-    } catch(err) {
-      console.log(err)
+    } catch(error) {
+      errorHandler(res, error)
     }
   }
 }

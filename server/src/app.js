@@ -6,6 +6,7 @@ const morgan = require('morgan')
 const config = require('./config/config')
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
+const passport = require('passport')
 const cookieParser = require('cookie-parser')
 const UserModel = require('./models/modelUser')
 const bcrypt = require('bcrypt')
@@ -26,6 +27,9 @@ const app = express()
 mongoose.connect(config.dbURL, config.dbOptions)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log(err))
+
+app.use(passport.initialize())
+require('./middleware/passport')(passport)
 
 // use modules
 app.use(morgan('combined'))

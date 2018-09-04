@@ -29,8 +29,8 @@
               <input
                 class="form-control"
                 type="text"
-                placeholder="Your name"
-                v-model="loginName">
+                placeholder="Your email"
+                v-model="loginEmail">
             </div>
             <div class="form-row">
               <input
@@ -74,7 +74,7 @@ export default {
       showUserDropDown: false,
       showUserInfo: false,
       showUserForm: true,
-      loginName: '',
+      loginEmail: '',
       loginPassword: ''
     }
   },
@@ -91,7 +91,7 @@ export default {
       if (this.loginName !== ''  &&
           this.loginPassword !== '') {
             const params = {
-              loginName: this.loginName,
+              loginEmail: this.loginEmail,
               loginPassword: this.loginPassword
             }
             await StoreService.login(params)
@@ -101,7 +101,7 @@ export default {
                 this.showUserDropDown = !this.showUserDropDown
                 this.showUserInfo = !this.showUserInfo
                 this.showUserForm = !this.showUserForm
-                this.loginName = ''
+                this.loginEmail = ''
                 this.loginPassword = ''
               })
           }

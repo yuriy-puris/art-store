@@ -22,6 +22,9 @@ export default {
   latestProducts() {
     return api().get('api/products/latest-products')
   },
+  categories() {
+    return api().get('api/categories/categories')
+  },
   startPage() {
     return api().get('/')
   },

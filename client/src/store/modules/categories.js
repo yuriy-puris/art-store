@@ -1,4 +1,4 @@
-import api from '@/services/api'
+import StoreService from "../../services/StoreService";
 
 const state = {
   categories_list: null
@@ -6,8 +6,10 @@ const state = {
 
 const actions = {
   loadMainCategory: async ({ commit }) => {
-    let categories_list = await api().get('categories')
-    commit('setMainCategory', { categories: categories_list })
+    await StoreService.categories()
+      .then(data => {
+        commit('setMainCategory', { categories: data })
+      })
   }
 }
 
